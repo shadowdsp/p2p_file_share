@@ -58,7 +58,7 @@ public class FileDownloaderThread implements Runnable {
                     OutputStream out = (created) ? new FileOutputStream(localDir + File.separator + fileName) :
                             new FileOutputStream(fileName);
                     Utils.copyFileData(in, out);
-                    System.out.println("File " + fileName + " download from " + host);
+                    System.out.println("File " + fileName + " download from " + host + " to " + localDir);
                     dataOutputStream.close();
                     out.close();
                     in.close();

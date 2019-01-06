@@ -16,6 +16,7 @@ public class SearchUtils {
             System.out.println("--- " + host);
         }
         System.out.println();
+        System.out.flush();
     }
 
     public static void searchAll() {
@@ -27,6 +28,7 @@ public class SearchUtils {
             }
         }
         System.out.println();
+        System.out.flush();
     }
 
     public static void searchFileFromHost(String host) {
@@ -40,5 +42,6 @@ public class SearchUtils {
             }
         }
         System.out.println();
+        System.out.flush();
     }
 }

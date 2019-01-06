@@ -1,5 +1,7 @@
 package p2p.entity;
+
 import p2p.utils.StringUtils;
+import p2p.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,25 +12,51 @@ import java.util.List;
 
 public class FilePathPkg {
 
-    private static String PACK_SEPARATOR = ";";
+    private List<String> filePathList;
+    private Integer tag;
 
-    public static String encode(List<String> files) {
-        StringBuilder sb = new StringBuilder();
-        for (String file: files) {
-            sb.append(file).append(PACK_SEPARATOR);
+    public FilePathPkg(Integer tag, List<String> filePathList) {
+        this.tag = tag;
+        this.filePathList = filePathList;
+    }
+
+    public static String encode(FilePathPkg pkg) {
+        Integer tag = pkg.getTag();
+        List<String> files = pkg.getFilePathList();
+        StringBuilder sb = new StringBuilder(tag + "@");
+        for (String file : files) {
+            sb.append(file).append(Utils.FILEPATH_SEPARATOR);
         }
         return sb.toString();
     }
 
-    public static List<String> decode(String info) {
+    public static FilePathPkg decode(String info) {
         List<String> arrayList = new ArrayList<>();
-        String[] strs = info.split(PACK_SEPARATOR);
-        for (String str: strs) {
-            if (!StringUtils.isEmpty(str)) {
-                arrayList.add(str);
+        String[] tmps = info.split(Utils.PATHTAG_SEPARATOR);
+        if (tmps.length > 1 && !StringUtils.isEmpty(tmps[1])) {
+            String[] strs = tmps[1].split(Utils.FILEPATH_SEPARATOR);
+            for (String str : strs) {
+                if (!StringUtils.isEmpty(str)) {
+                    arrayList.add(str);
+                }
             }
         }
-        return arrayList;
+        return new FilePathPkg(Integer.parseInt(tmps[0]), arrayList);
     }
 
+    public List<String> getFilePathList() {
+        return filePathList;
+    }
+
+    public void setFilePathList(List<String> filePathList) {
+        this.filePathList = filePathList;
+    }
+
+    public Integer getTag() {
+        return tag;
+    }
+
+    public void setTag(Integer tag) {
+        this.tag = tag;
+    }
 }

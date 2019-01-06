@@ -4,6 +4,7 @@ import p2p.connection.ConnectionReceiver;
 import p2p.connection.ConnectionSender;
 import p2p.file.FileDownloader;
 import p2p.file.FileReceiver;
+import p2p.utils.FilePathUtils;
 import p2p.utils.SearchUtils;
 import p2p.utils.Utils;
 
@@ -12,7 +13,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.Executors;
 
 /**
  * Created by shadowdsp on 2019/1/5.
@@ -32,7 +32,7 @@ public class Main {
         // TODO: 监听广播 (Thread)
         new Thread(new ConnectionReceiver()).start();
         // TODO: 广播加入局域网 (Thread)
-        ConnectionSender.sendConnection();
+        ConnectionSender.sendConnection(Utils.BROADCAST_JOIN);
         // TODO: 接收下载文件请求 (Thread)
         new Thread(new FileReceiver()).start();
 
@@ -60,6 +60,7 @@ public class Main {
                 switch (strs[0]) {
                     case "upload":
                         if (strs.length == 2) {
+                            strs[1] = FilePathUtils.fixPath(strs[1]);
                             if (Utils.fileIsExists(strs[1])) {
                                 List<String> list = new ArrayList<>();
                                 list.add(strs[1]);
@@ -71,7 +72,7 @@ public class Main {
                                     e.printStackTrace();
                                 }
                                 // refresh file to other host
-                                ConnectionSender.sendConnection();
+                                ConnectionSender.sendConnection(Utils.BROADCAST_UPDATE);
                                 System.out.println("upload " + strs[1] + " succeed");
                             } else {
                                 System.out.println("upload failed: path is not exist");

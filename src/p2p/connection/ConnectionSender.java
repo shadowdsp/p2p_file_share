@@ -12,7 +12,7 @@ import java.util.concurrent.Executors;
 public class ConnectionSender {
     private static ExecutorService threadPoll = Executors.newFixedThreadPool(Utils.THREAD_NUMBER);
 
-    public static void sendConnection() {
-        threadPoll.execute(new ConnectionSenderThread());
+    public static void sendConnection(Integer tag) {
+        threadPoll.execute(new ConnectionSenderThread(tag));
     }
 }

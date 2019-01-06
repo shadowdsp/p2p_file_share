@@ -5,7 +5,8 @@ import p2p.utils.Utils;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
-import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.MulticastSocket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -19,13 +20,16 @@ public class ConnectionReceiver implements Runnable {
 
     @Override
     public void run() {
-        try (DatagramSocket socket = new DatagramSocket(Utils.UDP_PORT)) {
+        try (MulticastSocket socket = new MulticastSocket(Utils.UDP_PORT)) {
+            socket.joinGroup(InetAddress.getByName(Utils.BROADCAST_IP));
             while (true) {
                 // 接收别人的数据
                 byte[] data = new byte[Utils.PATH_SIZE];
                 DatagramPacket receivePacket = new DatagramPacket(data, data.length);
                 socket.receive(receivePacket);
-                if (!Local.localNodeMap.containsKey(receivePacket.getAddress().getHostAddress())) {
+                String remoteAddress = receivePacket.getAddress().getHostAddress();
+                String localAddress = InetAddress.getLocalHost().getHostAddress();
+                if (!remoteAddress.equals(localAddress)) {
                     threadPoll.execute(new ConnectionReceiveThread(receivePacket));
                 }
             }

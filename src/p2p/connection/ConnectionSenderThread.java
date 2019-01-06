@@ -14,6 +14,11 @@ import java.net.InetAddress;
  */
 
 public class ConnectionSenderThread implements Runnable {
+    private Integer tag;
+
+    public ConnectionSenderThread(Integer tag) {
+        this.tag = tag;
+    }
 
     /**
      * 发送广播告诉局域网内所有用户自己的情况，超时就跳出
@@ -21,11 +26,12 @@ public class ConnectionSenderThread implements Runnable {
     @Override
     public void run() {
         try (DatagramSocket socket = new DatagramSocket()) {
-            InetAddress inetAddress = InetAddress.getByName("255.255.255.255");
-            int port = Utils.UDP_PORT;
-            byte[] localFileInfos = FilePathPkg.encode(Local.localNode.getFilePathArray()).getBytes();
-            DatagramPacket packet = new DatagramPacket(localFileInfos, localFileInfos.length, inetAddress, port);
+            InetAddress inetAddress = InetAddress.getByName(Utils.BROADCAST_IP);
+            byte[] localFileInfos =
+                    FilePathPkg.encode(new FilePathPkg(tag, Local.localNode.getFilePathArray())).getBytes();
+            DatagramPacket packet = new DatagramPacket(localFileInfos, localFileInfos.length, inetAddress, Utils.UDP_PORT);
             socket.send(packet);
+            System.out.println("ConnectionSendThread broadcast: " + new String(localFileInfos));
         } catch (IOException e) {
             e.printStackTrace();
         }

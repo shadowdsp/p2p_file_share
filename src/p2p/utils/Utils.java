@@ -11,11 +11,18 @@ import java.io.OutputStream;
 
 public class Utils {
     public final static int UDP_PORT = 8001;
-    public final static int TCP_PORT = 8002;
+    public final static int TCP_PORT = 9001;
     public static final int THREAD_NUMBER = 5;
     public static final int PATH_SIZE = 1024;
     public static final int UDP_SOCKET_TIMEOUT = 2000;
     public static final int TCP_SOCKET_TIMEOUT = 2000;
+    public static final String BROADCAST_IP = "230.0.0.1";
+
+    public static final String FILEPATH_SEPARATOR = ";";
+    public static final String PATHTAG_SEPARATOR = "@";
+    public static final Integer BROADCAST_JOIN = 1;
+    public static final Integer BROADCAST_UPDATE = 2;
+    public static final Integer BROADCAST_LEAVE = 3;
 
     public static String getFileNameFromPath(String path) {
         return new File(path).getName();

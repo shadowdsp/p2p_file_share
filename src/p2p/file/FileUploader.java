@@ -9,16 +9,7 @@ import java.util.List;
  * Created by shadowdsp on 2019/1/6.
  */
 
-public class FileUploader implements Runnable {
+public class FileUploader {
 
-    private String path;
 
-    public FileUploader(String path) {
-        this.path = path;
-    }
-
-    @Override
-    public void run() {
-
-    }
 }
