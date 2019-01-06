@@ -16,7 +16,6 @@ public class Local {
 
     public static Node localNode = new Node();
     public static Map<String, Node> localNodeMap = new ConcurrentHashMap<>();
-    public static Map<String, Boolean> refreshMap = new ConcurrentHashMap<>();
 
     /**
      * 添加结点，如果结点原来不存在就添加，然后根据文件路径刷新该结点的文件信息

@@ -29,6 +29,7 @@ public class ConnectionReceiver implements Runnable {
                 socket.receive(receivePacket);
                 String remoteAddress = receivePacket.getAddress().getHostAddress();
                 String localAddress = InetAddress.getLocalHost().getHostAddress();
+//                System.out.println(localAddress + " - " + remoteAddress + " : " + new String(receivePacket.getData(), receivePacket.getOffset(), receivePacket.getLength()));
                 if (!remoteAddress.equals(localAddress)) {
                     threadPoll.execute(new ConnectionReceiveThread(receivePacket));
                 }

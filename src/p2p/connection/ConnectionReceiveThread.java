@@ -45,7 +45,7 @@ public class ConnectionReceiveThread implements Runnable {
                 System.out.println("receive broadcast and send back to " +
                         inetAddress.getHostAddress() + ": " + new String(localFileInfos));
                 DatagramPacket sendPacket = new DatagramPacket(localFileInfos, localFileInfos.length,
-                        inetAddress, port);
+                        inetAddress, Utils.UDP_PORT);
                 sendSocket.send(sendPacket);
             }
         } catch (IOException e) {
